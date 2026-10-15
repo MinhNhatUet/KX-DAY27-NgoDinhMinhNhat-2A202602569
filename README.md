@@ -312,3 +312,20 @@ rm hitl_audit.db
 ```bash
 sqlite3 hitl_audit.db "SELECT action, confidence, decision, reviewer_id FROM audit_events ORDER BY id;"
 ```
+
+
+### Solution verification
+
+Run the offline integration suite (GitHub and LLM calls are mocked):
+
+```bash
+uv run --locked python -m unittest discover -s tests -v
+```
+
+The suite covers confidence boundaries, interrupt/resume, approve/reject/edit,
+escalation synthesis, SQLite persistence and audit events, and the Streamlit
+forms including reopening a saved session. For live reviews, configure `.env`
+with a GitHub token that can access `VinUni-AI20k/PR-Demo` and an LLM API key.
+Use `uv run streamlit run app.py` to review and resume sessions in the browser.
+On Windows terminals with a legacy encoding, set `PYTHONIOENCODING=utf-8` before
+running CLI exercises so the status symbols render correctly.
